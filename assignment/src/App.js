@@ -4,6 +4,7 @@ import SideBar from "./components/SideBar/SideBar";
 import Home from "./components/Home/Home";
 import TopNav from "./components/TopNav/TopNav";
 import CourseDeatils from "./components/CourseDetails/CourseDeatils";
+import Explore from "./components/Explore/Explore";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/course/:id" element={<CourseDeatils />} />
+            <Route path="explore" element={<Explore />} />
           </Routes>
         </div>
       </div>

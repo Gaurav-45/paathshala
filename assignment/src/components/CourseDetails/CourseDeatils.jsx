@@ -7,6 +7,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
 const CourseDeatils = () => {
   const arr = ["Frontend", "Backend"];
@@ -18,7 +19,7 @@ const CourseDeatils = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/get/${id}`)
+      .get(`${API_ENDPOINT}/api/get/${id}`)
       .then((response) => {
         setCourse(response.data);
         setTags(response.data.category);

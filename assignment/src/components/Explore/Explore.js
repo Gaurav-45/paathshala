@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CourseCard from "../CourseCard/CourseCard";
 import { Link } from "react-router-dom";
 import axios from "axios";
+const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
 const Explore = () => {
   const [courses, setCourses] = useState([]);
@@ -9,7 +10,7 @@ const Explore = () => {
 
   useEffect(() => {
     axios
-      .get("/api/getall")
+      .get(`${API_ENDPOINT}/api/getall`)
       .then((response) => {
         setCourses(response.data);
         setLoader(!loader);
