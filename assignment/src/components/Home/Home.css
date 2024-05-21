@@ -1,0 +1,32 @@
+.home_container{
+    padding: 20px;
+}
+.home_banner{
+    background-color: #271FE0;
+    color: white;
+    border-radius: 10px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.course_section_title{
+    display: flex;
+    justify-content: space-between;
+}
+
+.my_course{
+    margin-top: 30px;
+}
+.course_section_content{
+    /* display: flex;
+    flex-direction: row; */
+    display:grid;
+    grid-gap:50px;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    
+}
+
+.course_section_content a{
+    text-decoration: none;
+}

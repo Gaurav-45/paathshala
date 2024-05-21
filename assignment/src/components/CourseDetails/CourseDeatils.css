@@ -1,0 +1,63 @@
+.course_details_container{
+    padding: 20px;
+}
+
+.course_banner{
+    width: 100%;
+    border-radius: 10px;
+}
+
+.course_info{
+    width: 70%;
+}
+
+.course_skills{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.heading_margin_none{
+    margin: 0;
+}
+
+.course_info_container{
+    display: flex;
+    flex-direction: row;
+}
+
+.course_enroll{
+    width: 30%;
+    justify-content: center;
+    align-self: center;
+}
+.course_enroll_button{
+    background-color: #271FE0;
+    color: white;
+    border: none;
+    width: auto;
+    width: -webkit-fill-available;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.course_enroll_button:hover{
+    background-color: white;
+    color: #271FE0 ;
+    border: 2px solid #271FE0;
+}
+
+.course_content{
+    margin-top: 40px;
+}
+
+.course_module_video{
+    width: 100%;
+    height: 500px;
+}
+.course_enroll_price{
+    font-weight: bold;
+    font-size: 24px;
+}
