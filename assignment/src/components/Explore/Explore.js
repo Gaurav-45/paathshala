@@ -5,14 +5,14 @@ import axios from "axios";
 
 const Explore = () => {
   const [courses, setCourses] = useState([]);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     axios
-      .get(
-        "/api/getall"
-      )
+      .get("/api/getall")
       .then((response) => {
         setCourses(response.data);
+        setLoader(!loader);
       })
       .catch((error) => {
         console.error(error);
@@ -27,15 +27,15 @@ const Explore = () => {
           <p>View all</p>
         </Link>
       </div>
-      <div className="course_section_content">
-        {courses.map((course, index) => (
-          <CourseCard course={course} />
-        ))}
-
-        {/* <CourseCard /> */}
-        {/* <CourseCard />
-          <CourseCard /> */}
-      </div>
+      {loader ? (
+        <p className="loading_container">Fetching data</p>
+      ) : (
+        <div className="course_section_content">
+          {courses.map((course, index) => (
+            <CourseCard course={course} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
