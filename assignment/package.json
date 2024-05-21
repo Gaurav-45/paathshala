@@ -11,12 +11,14 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.1",
+    "dotenv": "^10.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "proxy": "https://igot-coursera-5ge9won41-gaurav45s-projects-5e0961d6.vercel.app/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

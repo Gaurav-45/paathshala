@@ -17,7 +17,7 @@ const CourseDeatils = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/get/${id}`)
+      .get(`/api/get/${id}`)
       .then((response) => {
         setCourse(response.data);
         setTags(response.data.category);

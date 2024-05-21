@@ -8,7 +8,9 @@ const Explore = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/getall")
+      .get(
+        "/api/getall"
+      )
       .then((response) => {
         setCourses(response.data);
       })
