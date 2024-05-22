@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const Course = require("../models/courseModel");
 const User = require("../models/userModel");
-const { generateToken } = require("../middleware/authMiddleware");
+const { generateToken } = require("../authMiddleware");
 
 //post a course
 router.post("/post", async (req, res) => {
