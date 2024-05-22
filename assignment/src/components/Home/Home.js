@@ -3,27 +3,18 @@ import "./Home.css";
 import { Link } from "react-router-dom";
 import CourseCard from "../CourseCard/CourseCard";
 import Explore from "../Explore/Explore";
+import MyCourse from "../MyCourse/MyCourse";
+import { useAuth } from "../../context/AuthContext";
 
 const Home = () => {
+  const { user } = useAuth();
   return (
     <div className="home_container">
       <div className="home_banner">
         <h1>iGOT Learning platform</h1>
       </div>
-      {/* <div className="my_course">
-        <div className="course_section_title">
-          <h3>My courses</h3>
-          <Link to="mycourse">
-            <p>View all</p>
-          </Link>
-        </div>
-        <div className="course_section_content">
-          <CourseCard />
-          <CourseCard />
-          <CourseCard />
-        </div>
-      </div> */}
-      <Explore />
+      {user && <MyCourse isHomeComponent={true} />}
+      <Explore isHomeComponent={true} />
     </div>
   );
 };

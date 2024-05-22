@@ -19,12 +19,16 @@ const Register = () => {
     axios
       .post(`${API_ENDPOINT}/api/register`, user)
       .then((response) => {
-        window.alert("Account created successfully");
+        toast.success("Account created successfully", {
+          position: "bottom-center",
+        });
         navigate("/");
         login(response);
       })
       .catch((error) => {
-        window.alert(error.response.data.message);
+        toast.error(error.response.data.message, {
+          position: "bottom-center",
+        });
       });
   };
 

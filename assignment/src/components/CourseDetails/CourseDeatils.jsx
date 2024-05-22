@@ -7,6 +7,8 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthContext";
 const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
 const CourseDeatils = () => {
@@ -16,6 +18,7 @@ const CourseDeatils = () => {
   const [lessons, setLessons] = useState([]);
   const [loader, setLoader] = useState(true);
   const { id } = useParams();
+  const { user } = useAuth();
 
   useEffect(() => {
     axios
@@ -30,6 +33,38 @@ const CourseDeatils = () => {
         console.error(error);
       });
   }, []);
+
+  const handleEnroll = () => {
+    if (!user) {
+      toast.error("Sign in to enroll course", {
+        position: "bottom-center",
+      });
+      return;
+    }
+    axios
+      .post(
+        `${API_ENDPOINT}/api/enroll/${id}`,
+        {
+          userId: user.data._id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.data.token}`,
+          },
+        }
+      )
+      .then(() => {
+        toast.success("Enrolled successfully", {
+          position: "bottom-center",
+        });
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message, {
+          position: "bottom-center",
+        });
+      });
+  };
 
   return (
     <>
@@ -63,7 +98,9 @@ const CourseDeatils = () => {
             </div>
             <div className="course_enroll">
               <p className="course_enroll_price">Rs. {course.price}</p>
-              <button className="course_enroll_button">Enroll Now</button>
+              <button className="course_enroll_button" onClick={handleEnroll}>
+                Enroll Now
+              </button>
             </div>
           </div>
           <div className="course_content">

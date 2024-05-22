@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
 
 const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
@@ -19,12 +20,16 @@ const Login = () => {
     axios
       .post(`${API_ENDPOINT}/api/login`, user)
       .then((response) => {
-        window.alert("Log in successfull");
+        toast.success("Log in successfull", {
+          position: "bottom-center",
+        });
         navigate("/");
         login(response);
       })
       .catch((error) => {
-        window.alert(error.response.data.message);
+        toast.error(error.response.data.message, {
+          position: "bottom-center",
+        });
       });
   };
   return (

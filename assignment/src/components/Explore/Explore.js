@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
-const Explore = () => {
+const Explore = ({ isHomeComponent = false }) => {
   const [courses, setCourses] = useState([]);
   const [loader, setLoader] = useState(true);
 
@@ -12,8 +12,13 @@ const Explore = () => {
     axios
       .get(`${API_ENDPOINT}/api/getall`)
       .then((response) => {
-        setCourses(response.data);
-        setLoader(!loader);
+        if (isHomeComponent) {
+          setCourses(response.data.slice(0, 3));
+          setLoader(!loader);
+        } else {
+          setCourses(response.data);
+          setLoader(!loader);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -24,9 +29,11 @@ const Explore = () => {
     <div className="my_course">
       <div className="course_section_title">
         <h3>Explore</h3>
-        <Link to="explore">
-          <p>View all</p>
-        </Link>
+        {isHomeComponent && (
+          <Link to="explore">
+            <p>View all</p>
+          </Link>
+        )}
       </div>
       {loader ? (
         <p className="loading_container">Fetching data</p>
