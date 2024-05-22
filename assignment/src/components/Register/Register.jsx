@@ -3,6 +3,7 @@ import "../Login/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
+import { toast } from "react-toastify"; 
 const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
 const Register = () => {

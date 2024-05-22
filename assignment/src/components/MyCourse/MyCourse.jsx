@@ -19,7 +19,7 @@ const MyCourse = ({ isHomeComponent = false }) => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGRlMDU1M2JiOGNhNTliNWY4OTIyZSIsImlhdCI6MTcxNjM4MTM5OSwiZXhwIjoxNzE4OTczMzk5fQ.WxKBGJRHjUzh7oy8CGiD-yabCdfzLHLg_shVBJGPT8A`,
+              Authorization: `Bearer ${user.data.token}`,
             },
           }
         )
