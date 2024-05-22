@@ -72,6 +72,16 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
+router.post("/loginn", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    res.status(200).json({ message: "Working fine" });
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
 // Register a new user
 router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
