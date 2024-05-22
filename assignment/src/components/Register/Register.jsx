@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "../Login/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 import { useAuth } from "../../context/AuthContext";
+const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
 const Register = () => {
   const [user, setUser] = useState({
