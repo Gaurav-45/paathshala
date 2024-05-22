@@ -19,3 +19,34 @@
     align-items: center;
     padding: 0 2vw;
 } 
+
+.top_nav_button{
+    background-color: #271FE0;
+    color: white;
+    border: none;
+    border: 2px solid #271FE0;
+    width: auto;
+    padding: 10px;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    margin: 10px;
+}
+
+
+.top_nav_button:hover{
+    background-color: white;
+    color: #271FE0 ;
+    border: 2px solid #271FE0;
+}
+
+.new_user{
+    display: flex;
+    flex-direction: row;
+}
+
+.logged_in_user{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -18,7 +18,6 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "https://igot-coursera-5ge9won41-gaurav45s-projects-5e0961d6.vercel.app/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
