@@ -26,3 +26,6 @@ database.once("connected", () => {
 app.listen(8000, () => {
   console.log(`Server Started at ${8000}`);
 });
+
+// Export the app for Vercel
+module.exports = app;
