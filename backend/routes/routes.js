@@ -26,6 +26,16 @@ router.post("/post", async (req, res) => {
   }
 });
 
+router.post("/loginn", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    res.status(200).json({ message: "Working fine" });
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+});
+
 //Get all courses
 router.get("/getAll", async (req, res) => {
   try {
@@ -69,16 +79,6 @@ router.delete("/delete/:id", async (req, res) => {
     res.send(`Document deleted successfully`);
   } catch (error) {
     res.status(400).json({ message: error.message });
-  }
-});
-
-router.post("/loginn", async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    res.status(200).json({ message: "Working fine" });
-  } catch (error) {
-    res.status(400).json({ message: error });
   }
 });
 
