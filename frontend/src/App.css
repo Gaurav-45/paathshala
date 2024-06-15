@@ -1,0 +1,18 @@
+.app_container{
+    display: flex;
+    flex-direction: row;
+}
+.right_container_content{
+    height: 90vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 0 20px 0 20px;
+  }
+  
+  .right_container_content::-webkit-scrollbar {
+    display: none;
+  }
+
+  .app{
+    width: 85vw;
+  }
