@@ -14,6 +14,7 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
+import LessonAccordian from "../LessonAccordian/LessonAccordian";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -189,38 +190,7 @@ const CourseDeatils = () => {
           <div className="course_content">
             <h3>Course content</h3>
             {lessons.map((lesson, index) => (
-              <Accordion defaultExpanded={index == 0} key={index}>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1-content"
-                  id="panel1-header"
-                >
-                  <div className="lesson_title">
-                    <p className="lesson_title_text">{lesson.title}</p>
-                    <div>
-                      {lesson.completed ? (
-                        <div className="lesson_completed_container">
-                          <img
-                            className="lesson_completed"
-                            src="/check.png"
-                            alt=""
-                          />
-                          <p>Completed</p>
-                        </div>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                  </div>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <p className="module_desc">{lesson.content}</p>
-                  <iframe
-                    className="course_module_video"
-                    src={lesson.videoUrl}
-                  ></iframe>
-                </AccordionDetails>
-              </Accordion>
+              <LessonAccordian lesson={lesson} index={index}/>
             ))}
           </div>
         </div>
