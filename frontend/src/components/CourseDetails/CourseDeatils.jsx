@@ -13,8 +13,8 @@ import { styled } from "@mui/material/styles";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
-const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 import LessonAccordian from "../LessonAccordian/LessonAccordian";
+const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -190,7 +190,7 @@ const CourseDeatils = () => {
           <div className="course_content">
             <h3>Course content</h3>
             {lessons.map((lesson, index) => (
-              <LessonAccordian lesson={lesson} index={index}/>
+              <LessonAccordian lesson={lesson} index={index} courseId={id} />
             ))}
           </div>
         </div>
