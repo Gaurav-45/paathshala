@@ -277,4 +277,49 @@ router.get("/checkenrollment/:courseId", protect, async (req, res) => {
   }
 });
 
+//API to add note for lesson
+router.post("/addnote/:courseId/:lessonId", protect, async (req, res) => {
+  // const { courseId, lessonId } = req.params;
+  const courseId = req.params.courseId;
+  const lessonId = req.params.lessonId;
+  const { note } = req.body;
+
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const courseProgress = user.enrolledCourses.find(
+      (course) => course.courseId.toString() === courseId
+    );
+
+    if (!courseProgress) {
+      return res
+        .status(404)
+        .json({ message: "Please enroll in the course to add a note" });
+    }
+
+    const lessonProgress = courseProgress.lessons.find(
+      (lesson) => lesson.lessonId.toString() === lessonId
+    );
+
+    if (!lessonProgress) {
+      return res
+        .status(404)
+        .json({ message: "Lesson not found in enrolled course" });
+    }
+
+    lessonProgress.note = note;
+
+    await user.save();
+
+    res
+      .status(200)
+      .json({ message: "Note added successfully", lessonProgress });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 module.exports = router;
