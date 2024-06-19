@@ -322,4 +322,69 @@ router.post("/addnote/:courseId/:lessonId", protect, async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+
+router.get("/checkenrollment/:courseId", protect, async (req, res) => {
+  const courseId = req.params.courseId;
+  const userId = req.user._id;
+  try {
+    const user = await User.findById(userId).lean();
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isEnrolled = user.enrolledCourses.some(
+      (courseProgress) => courseProgress.courseId.toString() === courseId
+    );
+
+    res.status(200).json({ isEnrolled });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+//API to mark lesson as completed
+router.post("/markcompleted/:courseId/:lessonId", protect, async (req, res) => {
+  const courseId = req.params.courseId;
+  const lessonId = req.params.lessonId;
+
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const courseProgress = user.enrolledCourses.find(
+      (course) => course.courseId.toString() === courseId
+    );
+
+    if (!courseProgress) {
+      return res
+        .status(404)
+        .json({ message: "Please enroll in the course to mark completed" });
+    }
+
+    const lessonProgress = courseProgress.lessons.find(
+      (lesson) => lesson.lessonId.toString() === lessonId
+    );
+
+    if (!lessonProgress) {
+      return res
+        .status(404)
+        .json({ message: "Lesson not found in enrolled course" });
+    }
+
+    lessonProgress.completed = true;
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Congratulations!!! You've completed the lesson",
+      lessonProgress,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 module.exports = router;
