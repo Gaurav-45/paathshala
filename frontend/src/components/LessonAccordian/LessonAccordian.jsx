@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import axios from "axios";
+import YotTubePlayer from "./YotTubePlayer";
 const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
 const LessonAccordian = ({ lesson, index, courseId }) => {
@@ -19,6 +20,36 @@ const LessonAccordian = ({ lesson, index, courseId }) => {
   const [isNotePresent, setIsNotePresent] = useState(
     lesson.note.length > 0 ? true : false
   );
+  const [isCompleted, setIsCompleted] = useState(lesson.completed);
+
+  // useEffect(() => {}, [isCompleted]);
+
+  const markCompleted = (lessonId) => {
+    if (user) {
+      axios
+        .post(
+          `${API_ENDPOINT}/api/markcompleted/${courseId}/${lessonId}`,
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.data.token}`,
+            },
+          }
+        )
+        .then((res) => {
+          setIsCompleted(true);
+          toast.success(res.data.message, {
+            position: "bottom-center",
+          });
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message, {
+            position: "bottom-center",
+          });
+        });
+    }
+  };
 
   const handleAddNote = (lessonId) => {
     if (!user) {
@@ -64,9 +95,8 @@ const LessonAccordian = ({ lesson, index, courseId }) => {
       >
         <div className="lesson_title">
           <p className="lesson_title_text">{lesson.title}</p>
-          {console.log("course", courseId)}
           <div>
-            {lesson.completed ? (
+            {isCompleted ? (
               <div className="lesson_completed_container">
                 <img className="lesson_completed" src="/check.png" alt="" />
                 <p>Completed</p>
@@ -79,7 +109,11 @@ const LessonAccordian = ({ lesson, index, courseId }) => {
       </AccordionSummary>
       <AccordionDetails>
         <p className="module_desc">{lesson.content}</p>
-        <iframe className="course_module_video" src={lesson.videoUrl}></iframe>
+        {/* <iframe className="course_module_video" src={lesson.videoUrl}></iframe> */}
+        <YotTubePlayer
+          videoUrl={lesson.videoUrl}
+          onVideoEnd={() => markCompleted(lesson._id)}
+        />
         <div className="lesson_notes">
           <textarea
             name="notes"
