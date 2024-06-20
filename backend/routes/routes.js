@@ -1,5 +1,4 @@
 const express = require("express");
-
 const router = express.Router();
 const Course = require("../models/courseModel");
 const User = require("../models/userModel");
@@ -279,7 +278,6 @@ router.get("/checkenrollment/:courseId", protect, async (req, res) => {
 
 //API to add note for lesson
 router.post("/addnote/:courseId/:lessonId", protect, async (req, res) => {
-  // const { courseId, lessonId } = req.params;
   const courseId = req.params.courseId;
   const lessonId = req.params.lessonId;
   const { note } = req.body;
@@ -323,6 +321,7 @@ router.post("/addnote/:courseId/:lessonId", protect, async (req, res) => {
   }
 });
 
+//Check if user is enrolled in course
 router.get("/checkenrollment/:courseId", protect, async (req, res) => {
   const courseId = req.params.courseId;
   const userId = req.user._id;
@@ -387,4 +386,5 @@ router.post("/markcompleted/:courseId/:lessonId", protect, async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+
 module.exports = router;

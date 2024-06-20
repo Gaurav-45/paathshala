@@ -10,7 +10,9 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 const routes = require("./routes/routes");
+const paymentRoutes = require("./routes/payment");
 app.use("/api", routes);
+app.use("/payment", paymentRoutes);
 
 mongoose.connect(mongoString);
 const database = mongoose.connection;
