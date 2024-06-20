@@ -5,7 +5,7 @@ import AccordionActions from "@mui/material/AccordionActions";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
@@ -38,6 +38,7 @@ const CourseDeatils = () => {
   const [isEnrolled, setIsEnrolled] = useState(false);
   const { id } = useParams();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const calculateCompletePercent = (lesson) => {
     let precent = 0;
@@ -46,6 +47,103 @@ const CourseDeatils = () => {
     });
 
     return (precent / lesson.length) * 100;
+  };
+
+  const initializeRazorpay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+
+      document.body.appendChild(script);
+    });
+  };
+
+  const makePayment = async () => {
+    if (!user) {
+      toast.error("Sign in to enroll course", {
+        position: "bottom-center",
+      });
+      return;
+    }
+    const res = await initializeRazorpay();
+
+    if (!res) {
+      alert("Razorpay SDK Failed to load");
+      return;
+    }
+
+    axios
+      .post(
+        `${API_ENDPOINT}/payment/createorder`,
+        {
+          amount: course.price,
+          currency: "INR",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.data.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const data = res.data;
+        var options = {
+          key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
+          name: "Gaurav Parulekar Pvt Ltd",
+          currency: data.currency,
+          amount: data.amount,
+          order_id: data.id,
+          description: "This is demo payment for course enrollment",
+          image: "https://manuarora.in/logo.png",
+          handler: function (response) {
+            let body = {
+              paymentId: response.razorpay_payment_id,
+              orderId: response.razorpay_order_id,
+              amount: course.price,
+              currency: "INR",
+              status: "Success",
+              courseId: id,
+              courseName: course.title,
+            };
+            addPaymentDetails(body);
+          },
+          modal: {
+            ondismiss: function () {
+              let body = {
+                paymentId: null,
+                orderId: data.id,
+                amount: course.price,
+                currency: "INR",
+                status: "Cancelled",
+                courseId: id,
+                courseName: course.title,
+              };
+              addPaymentDetails(body);
+            },
+          },
+          prefill: {
+            name: user.data.name,
+            email: user.data.email,
+          },
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error, {
+          position: "bottom-center",
+        });
+      });
   };
 
   useEffect(() => {
@@ -108,6 +206,24 @@ const CourseDeatils = () => {
     }
   }, []);
 
+  const addPaymentDetails = (body) => {
+    axios
+      .post(`${API_ENDPOINT}/payment/addpayment`, body, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.data.token}`,
+        },
+      })
+      .then(() => {
+        if (body.status == "Success") handleEnroll();
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message, {
+          position: "bottom-center",
+        });
+      });
+  };
+
   const handleEnroll = () => {
     if (!user) {
       toast.error("Sign in to enroll course", {
@@ -116,16 +232,21 @@ const CourseDeatils = () => {
       return;
     }
     axios
-      .post(`${API_ENDPOINT}/api/enroll/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.data.token}`,
-        },
-      })
+      .post(
+        `${API_ENDPOINT}/api/enroll/${id}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.data.token}`,
+          },
+        }
+      )
       .then(() => {
         toast.success("Enrolled successfully", {
           position: "bottom-center",
         });
+        navigate("/mycourse");
       })
       .catch((error) => {
         toast.error(error.response.data.message, {
@@ -180,7 +301,7 @@ const CourseDeatils = () => {
               <p className="course_enroll_price">Rs. {course.price}</p>
               <button
                 className="course_enroll_button"
-                onClick={handleEnroll}
+                onClick={makePayment}
                 disabled={isEnrolled}
               >
                 {isEnrolled ? "Already Enrolled" : "Enroll Now"}

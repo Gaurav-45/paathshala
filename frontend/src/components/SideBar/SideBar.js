@@ -36,13 +36,13 @@ const SideBar = () => {
                 <p>Explore</p>
               </li>
             </Link>
-            <Link to="learn">
+            <Link to="orders">
               <li
                 className={`nav_item ${
-                  currentPath === "/learn" ? "active" : ""
+                  currentPath === "/orders" ? "active" : ""
                 }`}
               >
-                <p>Learn</p>
+                <p>My Orders</p>
               </li>
             </Link>
             <Link to="project">

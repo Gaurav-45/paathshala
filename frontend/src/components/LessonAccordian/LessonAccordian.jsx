@@ -18,7 +18,7 @@ const LessonAccordian = ({ lesson, index, courseId }) => {
   const { user } = useAuth();
   const [userNotes, setUserNotes] = useState(lesson.note ? lesson.note : "");
   const [isNotePresent, setIsNotePresent] = useState(
-    lesson.note.length > 0 ? true : false
+    lesson.note ? (lesson.note.length > 0 ? true : false) : false
   );
   const [isCompleted, setIsCompleted] = useState(lesson.completed);
 
