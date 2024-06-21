@@ -1,8 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const nodemailer = require("nodemailer");
 const Course = require("../models/courseModel");
 const User = require("../models/userModel");
 const { generateToken, protect } = require("../authMiddleware");
+
+const transporter = nodemailer.createTransport({
+  port: 465,
+  host: "smtp.gmail.com",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+  secure: true,
+});
 
 //post a course
 router.post("/post", async (req, res) => {
@@ -182,6 +193,21 @@ router.post("/enroll/:courseId", protect, async (req, res) => {
 
     user.enrolledCourses.push({ courseId, lessons: lessonsProgress });
     await user.save();
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: user.email,
+      subject: "Course Enrollment Confirmation",
+      text: `Hi ${user.name},\n\nYou have successfully enrolled in the course: ${course.title}.\n\nBest regards,\nPaathshala Course Platform Team`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+      } else {
+        console.log("Email sent:", info.response);
+      }
+    });
 
     res.status(200).json({
       message: "Enrolled successfully",
