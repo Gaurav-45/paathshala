@@ -34,7 +34,7 @@ const Login = () => {
   return (
     <div className="login_container">
       <div className="login">
-        <img className="sidebar_logo" src="./karmayogiLogo.png" alt="" />
+        <img className="sidebar_logo" src="./paathshala_logo.png" alt="" />
         <input
           type="text"
           name="email"
