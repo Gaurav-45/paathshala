@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div className="home_container">
       <div className="home_banner">
-        <h1>iGOT Learning platform</h1>
+        <h1>PaathShala Learning platform</h1>
       </div>
       {user && <MyCourse isHomeComponent={true} />}
       <Explore isHomeComponent={true} />

@@ -102,7 +102,7 @@ const CourseDeatils = () => {
           amount: data.amount,
           order_id: data.id,
           description: "This is demo payment for course enrollment",
-          image: "https://manuarora.in/logo.png",
+          image: "/book_logo.png",
           handler: function (response) {
             let body = {
               paymentId: response.razorpay_payment_id,
