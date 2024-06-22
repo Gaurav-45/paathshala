@@ -8,14 +8,15 @@ const mongoString = process.env.DATABASE_URL;
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 const routes = require("./routes/routes");
 const paymentRoutes = require("./routes/payment");
-app.use("/api", routes);
-app.use("/payment", paymentRoutes);
 
 mongoose.connect(mongoString);
 const database = mongoose.connection;
+
+app.use("/api", routes);
+app.use("/payment", paymentRoutes);
 
 database.on("error", (error) => {
   console.log(error);
