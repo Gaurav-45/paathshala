@@ -8,7 +8,7 @@ const SideBar = () => {
   return (
     <div className="side_nav_container">
       <div className="side_nav">
-        <img className="sidebar_logo" src="/karmayogiLogo.png" alt="" />
+        <img className="sidebar_logo" src="/paathshala_logo.png" alt="" />
         <div className="nav_points">
           <ul className="nav_list">
             <Link to="">
