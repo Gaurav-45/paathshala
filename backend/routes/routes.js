@@ -138,38 +138,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Enroll in a course
-/*router.post("/enroll/:courseId", protect, async (req, res) => {
-  const userId = req.body.userId;
-  const { courseId } = req.params;
-
-  try {
-    const user = await User.findById(userId);
-    const course = await Course.findById(courseId);
-
-    if (!course) {
-      return res.status(404).json({ message: "Course not found" });
-    }
-
-    if (user.enrolledCourses.includes(courseId)) {
-      return res
-        .status(400)
-        .json({ message: "Already enrolled in this course" });
-    }
-
-    user.enrolledCourses.push(courseId);
-    await user.save();
-
-    res.status(200).json({
-      message: "Enrolled successfully",
-      enrolledCourses: user.enrolledCourses,
-    });
-  } catch (error) {
-    console.error("Error enrolling in course:", error);
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-});*/
-
 router.post("/enroll/:courseId", protect, async (req, res) => {
   const userId = req.user._id;
   const { courseId } = req.params;
