@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
+const fs = require("fs");
+const path = require("path");
 const Course = require("../models/courseModel");
 const User = require("../models/userModel");
 const { generateToken, protect } = require("../authMiddleware");
@@ -14,6 +16,11 @@ const transporter = nodemailer.createTransport({
   },
   secure: true,
 });
+
+// Function to load HTML template
+const loadTemplate = (filePath) => {
+  return fs.readFileSync(path.join(__dirname, filePath), "utf8");
+};
 
 //post a course
 router.post("/post", async (req, res) => {
@@ -191,14 +198,21 @@ router.post("/enroll/:courseId", protect, async (req, res) => {
       note: "",
     }));
 
-    user.enrolledCourses.push({ courseId, lessons: lessonsProgress });
-    await user.save();
+    // Load email template
+    const htmlTemplate = loadTemplate(
+      "../mailTemplates/enrollConfirmation.html"
+    );
+
+    // Replace placeholders with actual values
+    const htmlContent = htmlTemplate
+      .replace("{{userName}}", user.name)
+      .replace("{{courseTitle}}", course.title);
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: user.email,
       subject: "Course Enrollment Confirmation",
-      text: `Hi ${user.name},\n\nYou have successfully enrolled in the course: ${course.title}.\n\nBest regards,\nPaathshala Course Platform Team`,
+      html: htmlContent,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -208,6 +222,9 @@ router.post("/enroll/:courseId", protect, async (req, res) => {
         console.log("Email sent:", info.response);
       }
     });
+
+    user.enrolledCourses.push({ courseId, lessons: lessonsProgress });
+    await user.save();
 
     res.status(200).json({
       message: "Enrolled successfully",
