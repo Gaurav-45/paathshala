@@ -35,7 +35,7 @@ mongoose.connect(mongoString);
 const database = mongoose.connection;
 
 app.use("/api", routes);
-app.use("/payment", paymentRoutes);
+app.use("/api", paymentRoutes);
 
 database.on("error", (error) => {
   console.log(error);

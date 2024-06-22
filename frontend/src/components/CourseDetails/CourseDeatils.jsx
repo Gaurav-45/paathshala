@@ -81,7 +81,7 @@ const CourseDeatils = () => {
 
     axios
       .post(
-        `${API_ENDPOINT}/payment/createorder`,
+        `${API_ENDPOINT}/api/createorder`,
         {
           amount: course.price,
           currency: "INR",
@@ -208,7 +208,7 @@ const CourseDeatils = () => {
 
   const addPaymentDetails = (body) => {
     axios
-      .post(`${API_ENDPOINT}/payment/addpayment`, body, {
+      .post(`${API_ENDPOINT}/api/addpayment`, body, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user.data.token}`,
