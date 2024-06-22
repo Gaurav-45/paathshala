@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Confirmation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f6f6f6;
+      padding: 0;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background-color: #271FE0;
+      color: #ffffff;
+      padding: 10px;
+      text-align: center;
+    }
+    .content {
+      margin: 20px 0;
+    }
+    .footer {
+      text-align: center;
+      color: #777777;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Paathshala</h1>
+    </div>
+    <div class="content">
+      <h2>Payment Confirmation</h2>
+      <p>Hi {{userName}},</p>
+      <p>Thank you for your payment of <strong>{{paymentAmount}}</strong> for the course <strong>{{courseTitle}}</strong>.</p>
+      <p>Your transaction ID is: <strong>{{transactionId}}</strong>.</p>
+      <p>You can start accessing the course materials and track your progress on your <a href="{{courseLink}}">dashboard</a>.</p>
+      <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
+      <p>Happy Learning!</p>
+      <p>Best regards,</p>
+      <p>The Paathshala Team</p>
+    </div>
+    <div class="footer">
+      <p>&copy; 2024 Paathshala. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

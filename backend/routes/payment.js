@@ -2,9 +2,27 @@ const express = require("express");
 const Razorpay = require("razorpay");
 const shortid = require("shortid");
 const router = express.Router();
+const fs = require("fs");
+const path = require("path");
+const nodemailer = require("nodemailer");
 const Course = require("../models/courseModel");
 const User = require("../models/userModel");
 const { generateToken, protect } = require("../authMiddleware");
+
+// Function to load HTML template
+const loadTemplate = (filePath) => {
+  return fs.readFileSync(path.join(__dirname, filePath), "utf8");
+};
+
+const transporter = nodemailer.createTransport({
+  port: 465,
+  host: "smtp.gmail.com",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+  secure: true,
+});
 
 router.post("/createorder", protect, async (req, res) => {
   const razorpay = new Razorpay({
@@ -69,6 +87,33 @@ router.post("/addpayment", protect, async (req, res) => {
       courseId,
       courseName,
     };
+
+    // Load email template
+    const htmlTemplate = loadTemplate(
+      "../mailTemplates/paymentConfirmation.html"
+    );
+
+    // Replace placeholders with actual values
+    const htmlContent = htmlTemplate
+      .replace("{{userName}}", req.user.name)
+      .replace("{{paymentAmount}}", currency + " " + amount)
+      .replace("{{courseTitle}}", courseName)
+      .replace("{{transactionId}}", paymentId);
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: user.email,
+      subject: "Payment Confirmation",
+      html: htmlContent,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+      } else {
+        console.log("Email sent:", info.response);
+      }
+    });
 
     user.payments.push(newPayment);
 
