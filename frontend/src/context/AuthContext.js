@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AuthContext = createContext();
@@ -8,6 +9,7 @@ export const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -28,6 +30,7 @@ export const AuthProvider = ({ children }) => {
       position: "bottom-center",
     });
     localStorage.removeItem("user");
+    navigate("/");
   };
 
   return (

@@ -70,7 +70,7 @@ const MyCourse = ({ isHomeComponent = false }) => {
           </>
         )
       ) : (
-        <p>Please Signin to view enrolled courses</p>
+        <p className="sign_in_enroll">Please Signin to view enrolled courses</p>
       )}
     </div>
   );

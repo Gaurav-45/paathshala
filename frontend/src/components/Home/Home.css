@@ -40,6 +40,9 @@
     margin-top: 30px;
     width: 100%;
 }
+.sign_in_enroll{
+    text-align: center;
+}
 @media (max-width: 480px){
     .home_banner{
         padding: 20px;
