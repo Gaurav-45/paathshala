@@ -258,7 +258,7 @@ const CourseDeatils = () => {
   return (
     <>
       {loader ? (
-        <p className="loading_container">Fetching data</p>
+        <img className="loading_container" src="/load.gif" alt="" />
       ) : (
         <div className="course_details_container">
           <h2>{course.title}</h2>

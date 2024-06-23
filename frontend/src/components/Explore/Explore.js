@@ -36,7 +36,7 @@ const Explore = ({ isHomeComponent = false }) => {
         )}
       </div>
       {loader ? (
-        <p className="loading_container">Fetching data</p>
+        <img className="loading_container" src="/load.gif" alt="" />
       ) : (
         <div className="course_section_content">
           {courses.map((course, index) => (

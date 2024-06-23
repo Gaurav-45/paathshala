@@ -33,8 +33,13 @@
 }
 .loading_container{
     text-align: center;
+    width: 50px;
+    margin: auto;
 }
-
+.my_course{
+    display: flex;
+    flex-direction: column;
+}
 @media (max-width: 480px){
     .home_banner{
         padding: 20px;
