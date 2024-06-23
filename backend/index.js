@@ -30,18 +30,7 @@ const allowedOrigins = [
 //     allowedHeaders: ["Content-Type", "Authorization"],
 //   })
 // );
-var whitelist = [
-  "https://igot-coursera-noem-g9nfav9f5-gaurav45s-projects-5e0961d6.vercel.app",
-  "http://localhost:3000",
-];
-var corsOptions = {
-  origin: function (origin, callback) {
-    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-    callback(null, originIsWhitelisted);
-  },
-  credentials: true,
-};
-app.use(cors(corsOptions));
+app.options("*", cors());
 
 app.use(bodyParser.json());
 mongoose.connect(mongoString);
