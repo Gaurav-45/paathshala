@@ -30,3 +30,15 @@
     color: #271FE0 ;
     border: 2px solid #271FE0;
 }
+
+@media (max-width: 480px){
+    .lesson_notes{
+        flex-direction: column;
+    }
+    .lesson_notes textarea{
+        width: 90%;
+    }
+    .lesson_notes_submit_button{
+        margin-top: 10px;
+    }
+}

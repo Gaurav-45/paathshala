@@ -94,3 +94,20 @@
         padding: 0px;
     }
 }
+
+@media (max-width: 480px){
+    .course_info_container{
+        flex-direction: column;
+    }
+
+    .course_info{
+        width: 100%;
+    }
+
+    .course_enroll{
+        width: 100%;
+    }
+    .course_module_video{
+        height: 200px;
+    }
+}
