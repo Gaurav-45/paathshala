@@ -26,9 +26,12 @@ const Login = () => {
         login(response);
       })
       .catch((error) => {
-        toast.error(error.response.data.message, {
-          position: "bottom-center",
-        });
+        console.log(error);
+        if (error.response) {
+          toast.error(error.response.data.message, {
+            position: "bottom-center",
+          });
+        }
       });
   };
   return (
