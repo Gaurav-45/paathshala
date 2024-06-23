@@ -11,7 +11,12 @@ const { generateToken, protect } = require("../authMiddleware");
 
 // Function to load HTML template
 const loadTemplate = (filePath) => {
-  return fs.readFileSync(path.join(__dirname, filePath), "utf8");
+  const resolvedPath = path.resolve(__dirname, filePath);
+  if (fs.existsSync(resolvedPath)) {
+    return fs.readFileSync(resolvedPath, "utf8");
+  } else {
+    throw new Error(`Template file not found: ${resolvedPath}`);
+  }
 };
 
 const transporter = nodemailer.createTransport({
