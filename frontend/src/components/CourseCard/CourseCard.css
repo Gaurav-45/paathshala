@@ -47,3 +47,8 @@
     text-decoration: none;
     color: black;
 }
+@media (max-width: 768px){
+    .course_card_container{
+        margin: auto;
+    }
+}

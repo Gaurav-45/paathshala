@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 .course_section_title{
     display: flex;
@@ -32,4 +33,21 @@
 }
 .loading_container{
     text-align: center;
+}
+
+@media (max-width: 480px){
+    .home_banner{
+        padding: 20px;
+        text-align: center;
+        height: 200px
+    }
+    .course_section_content{
+        grid-template-columns: repeat(1,minmax(0,1fr));
+    }
+}
+
+@media  (min-width: 481px) and (max-width: 768px){
+    .course_section_content{
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
 }

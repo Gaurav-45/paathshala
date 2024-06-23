@@ -88,3 +88,9 @@
 .lesson_title_text{
     margin: 0;
 }
+
+@media (max-width: 768px){
+    .course_details_container{
+        padding: 0px;
+    }
+}
