@@ -321,4 +321,25 @@ router.post("/markcompleted/:courseId/:lessonId", protect, async (req, res) => {
   }
 });
 
+// API to fetch all payment details
+//get all enrolled courses
+router.post("/getpayment", protect, async (req, res) => {
+  const userId = req.user._id;
+
+  try {
+    const user = await User.findById(userId).select("payments");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Sort payments by date in descending order
+    const sortedPayments = user.payments.sort((a, b) => b.date - a.date);
+
+    res.status(200).json(sortedPayments);
+  } catch (error) {
+    console.error("Error fetching enrolled courses:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 module.exports = router;
