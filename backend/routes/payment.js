@@ -9,15 +9,6 @@ const Course = require("../models/courseModel");
 const User = require("../models/userModel");
 const { generateToken, protect } = require("../authMiddleware");
 const { paymentConfirmationTemplate } = require("../mailTemplates/template");
-// Function to load HTML template
-const loadTemplate = (filePath) => {
-  const resolvedPath = path.resolve(__dirname, filePath);
-  if (fs.existsSync(resolvedPath)) {
-    return fs.readFileSync(resolvedPath, "utf8");
-  } else {
-    throw new Error(`Template file not found: ${resolvedPath}`);
-  }
-};
 
 const transporter = nodemailer.createTransport({
   port: 465,
@@ -29,6 +20,7 @@ const transporter = nodemailer.createTransport({
   secure: true,
 });
 
+//API to create order id for razorpay payment
 router.post("/createorder", protect, async (req, res) => {
   const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY,

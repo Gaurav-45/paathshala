@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const mongoString = process.env.DATABASE_URL;
 const routes = require("./routes/routes");
 const paymentRoutes = require("./routes/payment");
+const userRoutes = require("./routes/user");
 
 const app = express();
 app.use(express.json());
@@ -30,6 +31,7 @@ const database = mongoose.connection;
 
 app.use("/api", routes);
 app.use("/api", paymentRoutes);
+app.use("/api", userRoutes);
 
 database.on("error", (error) => {
   console.log(error);
