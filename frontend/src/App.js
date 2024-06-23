@@ -10,6 +10,7 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import MyCourse from "./components/MyCourse/MyCourse";
 import { ToastContainer } from "react-toastify";
+import OrderHistory from "./components/OrderHistory/OrderHistory";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/Register" element={<Register />} />
             <Route path="/mycourse" element={<MyCourse />} />
+            <Route path="/orders" element={<OrderHistory />} />
           </Routes>
         </div>
       </div>
