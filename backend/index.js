@@ -20,6 +20,7 @@ const corsOptions = {
   methods: "*",
   allowedHeaders: "*",
   optionsSuccessStatus: 204,
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
