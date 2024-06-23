@@ -49,6 +49,9 @@
     .course_section_content{
         grid-template-columns: repeat(1,minmax(0,1fr));
     }
+    .my_course{
+        margin: auto;
+    }
 }
 
 @media  (min-width: 481px) and (max-width: 768px){
