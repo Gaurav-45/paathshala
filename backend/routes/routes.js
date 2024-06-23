@@ -6,6 +6,7 @@ const path = require("path");
 const Course = require("../models/courseModel");
 const User = require("../models/userModel");
 const { generateToken, protect } = require("../authMiddleware");
+const { enrollConfirmationTemplate } = require("../mailTemplates/template");
 
 const transporter = nodemailer.createTransport({
   port: 465,
@@ -16,11 +17,6 @@ const transporter = nodemailer.createTransport({
   },
   secure: true,
 });
-
-// Function to load HTML template
-const loadTemplate = (filePath) => {
-  return fs.readFileSync(path.join(__dirname, filePath), "utf8");
-};
 
 //post a course
 router.post("/post", async (req, res) => {
@@ -166,13 +162,8 @@ router.post("/enroll/:courseId", protect, async (req, res) => {
       note: "",
     }));
 
-    // Load email template
-    const htmlTemplate = loadTemplate(
-      "../mailTemplates/enrollConfirmation.html"
-    );
-
     // Replace placeholders with actual values
-    const htmlContent = htmlTemplate
+    const htmlContent = enrollConfirmationTemplate
       .replace("{{userName}}", user.name)
       .replace("{{courseTitle}}", course.title);
 

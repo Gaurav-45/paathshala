@@ -8,7 +8,7 @@ const nodemailer = require("nodemailer");
 const Course = require("../models/courseModel");
 const User = require("../models/userModel");
 const { generateToken, protect } = require("../authMiddleware");
-
+const { paymentConfirmationTemplate } = require("../mailTemplates/template");
 // Function to load HTML template
 const loadTemplate = (filePath) => {
   const resolvedPath = path.resolve(__dirname, filePath);
@@ -93,14 +93,9 @@ router.post("/addpayment", protect, async (req, res) => {
       courseName,
     };
 
-    // Load email template
-    const htmlTemplate = loadTemplate(
-      "../mailTemplates/paymentConfirmation.html"
-    );
-
     // Replace placeholders with actual values
     if (status == "Success") {
-      const htmlContent = htmlTemplate
+      const htmlContent = paymentConfirmationTemplate
         .replace("{{userName}}", req.user.name)
         .replace("{{paymentAmount}}", currency + " " + amount)
         .replace("{{courseTitle}}", courseName)
