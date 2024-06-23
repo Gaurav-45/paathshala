@@ -15,23 +15,35 @@ const allowedOrigins = [
   "http://localhost:3000",
 ];
 
-// Configure CORS
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        console.log("Not allowed by CORS");
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// // Configure CORS
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+//         callback(null, true);
+//       } else {
+//         console.log("Not allowed by CORS");
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+var whitelist = [
+  "https://igot-coursera-noem-g9nfav9f5-gaurav45s-projects-5e0961d6.vercel.app",
+  "http://localhost:3000",
+];
+var corsOptions = {
+  origin: function (origin, callback) {
+    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 mongoose.connect(mongoString);
 const database = mongoose.connection;
 
