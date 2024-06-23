@@ -18,11 +18,18 @@ function App() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
 
   return (
     <div className={`app_container ${isSidebarOpen ? "sidebar_open" : ""}`}>
       <ToastContainer />
-      <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>
+      <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <div
+        className={`overlay ${isSidebarOpen ? "show" : ""}`}
+        onClick={closeSidebar}
+      ></div>
       <div className="app">
         <TopNav toggleSidebar={toggleSidebar} />
         <div className="right_container_content">
