@@ -29,8 +29,7 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.json());
 mongoose.connect(mongoString);
 const database = mongoose.connection;
