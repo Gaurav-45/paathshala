@@ -10,6 +10,7 @@ const TopNav = ({ toggleSidebar }) => {
   const navigate = useNavigate();
   const handleLogOut = () => {
     logout();
+    navigate("/");
   };
   return (
     <div className="top_nav_container">
