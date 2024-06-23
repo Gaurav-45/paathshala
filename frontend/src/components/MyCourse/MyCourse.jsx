@@ -3,6 +3,7 @@ import CourseCard from "../CourseCard/CourseCard";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
 const MyCourse = ({ isHomeComponent = false }) => {
@@ -48,24 +49,28 @@ const MyCourse = ({ isHomeComponent = false }) => {
           </Link>
         )}
       </div>
-      {loader ? (
-        <img className="loading_container" src="/load.gif" alt="" />
+      {user ? (
+        loader ? (
+          <img className="loading_container" src="/load.gif" alt="" />
+        ) : (
+          <>
+            {courses.length == 0 ? (
+              <p className="loading_container">No course enrolled yet</p>
+            ) : (
+              <div className="course_section_content">
+                {courses.map((course, index) => (
+                  <CourseCard
+                    course={course.courseId}
+                    lesson={course.lessons}
+                    enrolledCourse={true}
+                  />
+                ))}
+              </div>
+            )}
+          </>
+        )
       ) : (
-        <>
-          {courses.length == 0 ? (
-            <p className="loading_container">No course enrolled yet</p>
-          ) : (
-            <div className="course_section_content">
-              {courses.map((course, index) => (
-                <CourseCard
-                  course={course.courseId}
-                  lesson={course.lessons}
-                  enrolledCourse={true}
-                />
-              ))}
-            </div>
-          )}
-        </>
+        <p>Please Signin to view enrolled courses</p>
       )}
     </div>
   );

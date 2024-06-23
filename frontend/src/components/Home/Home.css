@@ -1,5 +1,6 @@
 .home_container{
     /* padding: 20px; */
+    width: 100%;
 }
 .home_banner{
     background-color: #271FE0;
@@ -16,9 +17,6 @@
     justify-content: space-between;
 }
 
-.my_course{
-    margin-top: 30px;
-}
 .course_section_content{
     /* display: flex;
     flex-direction: row; */
@@ -39,6 +37,8 @@
 .my_course{
     display: flex;
     flex-direction: column;
+    margin-top: 30px;
+    width: 100%;
 }
 @media (max-width: 480px){
     .home_banner{
