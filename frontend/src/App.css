@@ -16,3 +16,8 @@
   .app{
     width: 85vw;
   }
+  @media (max-width: 768px) {
+    .app{
+      width: 100vw;
+    }
+  }

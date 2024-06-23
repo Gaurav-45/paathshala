@@ -50,3 +50,9 @@
     justify-content: center;
     align-items: center;
 }
+
+@media (max-width: 768px) {
+    .top_nav_container{
+      width: 98vw;
+    }
+  }

@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import SideBar from "./components/SideBar/SideBar";
@@ -12,12 +13,18 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div className="app_container">
+    <div className={`app_container ${isSidebarOpen ? "sidebar_open" : ""}`}>
       <ToastContainer />
-      <SideBar />
+      <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>
       <div className="app">
-        <TopNav />
+        <TopNav toggleSidebar={toggleSidebar} />
         <div className="right_container_content">
           <Routes>
             <Route path="/" element={<Home />} />

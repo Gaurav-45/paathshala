@@ -2,12 +2,16 @@ import React from "react";
 import "./SideBar.css";
 import { Link, useLocation } from "react-router-dom";
 
-const SideBar = () => {
+const SideBar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const currentPath = location.pathname;
+
   return (
-    <div className="side_nav_container">
+    <div className={`side_nav_container ${isOpen ? "open" : ""}`}>
       <div className="side_nav">
+        <button className="hamburger" onClick={toggleSidebar}>
+          ☰
+        </button>
         <img className="sidebar_logo" src="/paathshala_logo.png" alt="" />
         <div className="nav_points">
           <ul className="nav_list">

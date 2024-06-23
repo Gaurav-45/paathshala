@@ -3,7 +3,7 @@ import "./TopNav.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-const TopNav = () => {
+const TopNav = ({ toggleSidebar }) => {
   const location = useLocation();
   const currentPath = location.pathname;
   const { user, logout } = useAuth();
@@ -13,6 +13,9 @@ const TopNav = () => {
   };
   return (
     <div className="top_nav_container">
+      <button className="hamburger" onClick={toggleSidebar}>
+        ☰
+      </button>
       {!(currentPath.includes("login") || currentPath.includes("register")) && (
         <>
           <p className="user_name">Hi {user ? user.data.name : ""}</p>
