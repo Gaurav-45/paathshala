@@ -94,26 +94,28 @@ router.post("/addpayment", protect, async (req, res) => {
     );
 
     // Replace placeholders with actual values
-    const htmlContent = htmlTemplate
-      .replace("{{userName}}", req.user.name)
-      .replace("{{paymentAmount}}", currency + " " + amount)
-      .replace("{{courseTitle}}", courseName)
-      .replace("{{transactionId}}", paymentId);
+    if (status == "Success") {
+      const htmlContent = htmlTemplate
+        .replace("{{userName}}", req.user.name)
+        .replace("{{paymentAmount}}", currency + " " + amount)
+        .replace("{{courseTitle}}", courseName)
+        .replace("{{transactionId}}", paymentId);
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: "Payment Confirmation",
-      html: htmlContent,
-    };
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: user.email,
+        subject: "Payment Confirmation",
+        html: htmlContent,
+      };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error("Error sending email:", error);
-      } else {
-        console.log("Email sent:", info.response);
-      }
-    });
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error sending email:", error);
+        } else {
+          console.log("Email sent:", info.response);
+        }
+      });
+    }
 
     user.payments.push(newPayment);
 
