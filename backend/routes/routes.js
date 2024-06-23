@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const Course = require("../models/courseModel");
 const User = require("../models/userModel");
+const cors = require("cors");
 const { generateToken, protect } = require("../authMiddleware");
 
 const transporter = nodemailer.createTransport({
@@ -16,6 +17,20 @@ const transporter = nodemailer.createTransport({
   },
   secure: true,
 });
+
+var allowlist = [
+  "https://igot-coursera-noem-g9nfav9f5-gaurav45s-projects-5e0961d6.vercel.app",
+  "http://localhost:3000",
+];
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (allowlist.indexOf(req.header("Origin")) !== -1) {
+    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false }; // disable CORS for this request
+  }
+  callback(null, corsOptions); // callback expects two parameters: error and options
+};
 
 // Function to load HTML template
 const loadTemplate = (filePath) => {
@@ -116,7 +131,7 @@ router.post("/register", async (req, res) => {
 });
 
 // Login a user
-router.post("/login", async (req, res) => {
+router.post("/login", cors(corsOptionsDelegate), async (req, res) => {
   const { email, password } = req.body;
 
   try {
