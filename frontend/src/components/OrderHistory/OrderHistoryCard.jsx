@@ -8,7 +8,7 @@ const OrderHistoryCard = ({ data }) => {
         <h4>{data.courseName}</h4>
         <p>Payment ID: {data.paymentId}</p>
       </div>
-      <div className="card_item">
+      <div className="card_item card_payment">
         <h4>{data.currency + " " + data.amount}</h4>
         <p>Date: {data.date}</p>
       </div>

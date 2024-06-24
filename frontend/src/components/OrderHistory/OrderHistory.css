@@ -37,3 +37,21 @@
 .cancelled {
     color: red;
 }
+
+@media (max-width: 480px){
+    .order_history_card_container{
+        flex-direction: column;
+    }
+    .card_item{
+        align-self: normal;
+    }
+    .card_item h4{
+        margin: 5px 0;
+    }
+    .card_item p{
+        margin: 5px 0;
+    }
+    .card_payment{
+        flex-direction: column-reverse;
+    }
+}
