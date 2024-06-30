@@ -55,7 +55,7 @@ const MyCourse = ({ isHomeComponent = false }) => {
         ) : (
           <>
             {courses.length == 0 ? (
-              <p className="loading_container">No course enrolled yet</p>
+              <p className="loading_container no_course">No course enrolled yet</p>
             ) : (
               <div className="course_section_content">
                 {courses.map((course, index) => (

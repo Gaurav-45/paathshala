@@ -43,6 +43,9 @@
 .sign_in_enroll{
     text-align: center;
 }
+.no_course{
+    width: 100% !important;
+}
 @media (max-width: 480px){
     .home_banner{
         padding: 20px;

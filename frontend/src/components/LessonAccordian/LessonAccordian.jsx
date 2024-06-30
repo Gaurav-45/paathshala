@@ -14,7 +14,6 @@ import YotTubePlayer from "./YotTubePlayer";
 const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
 const LessonAccordian = ({ lesson, index, courseId }) => {
-  //   const { courseId } = useParams();
   const { user } = useAuth();
   const [userNotes, setUserNotes] = useState(lesson.note ? lesson.note : "");
   const [isNotePresent, setIsNotePresent] = useState(
@@ -22,8 +21,7 @@ const LessonAccordian = ({ lesson, index, courseId }) => {
   );
   const [isCompleted, setIsCompleted] = useState(lesson.completed);
 
-  // useEffect(() => {}, [isCompleted]);
-
+  // Function to mark lesson as completed
   const markCompleted = (lessonId) => {
     if (user) {
       axios
@@ -51,6 +49,7 @@ const LessonAccordian = ({ lesson, index, courseId }) => {
     }
   };
 
+  // Function to add note in lesson
   const handleAddNote = (lessonId) => {
     if (!user) {
       toast.error("Please signin to add note", {
@@ -109,7 +108,6 @@ const LessonAccordian = ({ lesson, index, courseId }) => {
       </AccordionSummary>
       <AccordionDetails>
         <p className="module_desc">{lesson.content}</p>
-        {/* <iframe className="course_module_video" src={lesson.videoUrl}></iframe> */}
         <YotTubePlayer
           videoUrl={lesson.videoUrl}
           onVideoEnd={() => markCompleted(lesson._id)}

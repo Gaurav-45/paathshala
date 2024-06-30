@@ -9,28 +9,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
-import { styled } from "@mui/material/styles";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
 import LessonAccordian from "../LessonAccordian/LessonAccordian";
 const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
-
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
-  borderRadius: 5,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor:
-      theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: "#00D100",
-  },
-}));
+import BorderLinearProgress from "./BorderLinearProgress";
+import { makePayment, addPaymentDetails } from "./PaymentHandler";
 
 const CourseDeatils = () => {
-  const arr = ["Frontend", "Backend"];
   const [course, setCourse] = useState({});
   const [tags, setTags] = useState([]);
   const [lessons, setLessons] = useState([]);
@@ -49,105 +33,9 @@ const CourseDeatils = () => {
     return (precent / lesson.length) * 100;
   };
 
-  const initializeRazorpay = () => {
-    return new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-
-      script.onload = () => {
-        resolve(true);
-      };
-      script.onerror = () => {
-        resolve(false);
-      };
-
-      document.body.appendChild(script);
-    });
-  };
-
-  const makePayment = async () => {
-    if (!user) {
-      toast.error("Sign in to enroll course", {
-        position: "bottom-center",
-      });
-      return;
-    }
-    const res = await initializeRazorpay();
-
-    if (!res) {
-      alert("Razorpay SDK Failed to load");
-      return;
-    }
-
-    axios
-      .post(
-        `${API_ENDPOINT}/api/createorder`,
-        {
-          amount: course.price,
-          currency: "INR",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.data.token}`,
-          },
-        }
-      )
-      .then((res) => {
-        const data = res.data;
-        var options = {
-          key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
-          name: "Gaurav Parulekar Pvt Ltd",
-          currency: data.currency,
-          amount: data.amount,
-          order_id: data.id,
-          description: "This is demo payment for course enrollment",
-          image: "/book_logo.png",
-          handler: function (response) {
-            let body = {
-              paymentId: response.razorpay_payment_id,
-              orderId: response.razorpay_order_id,
-              amount: course.price,
-              currency: "INR",
-              status: "Success",
-              courseId: id,
-              courseName: course.title,
-            };
-            addPaymentDetails(body);
-          },
-          modal: {
-            ondismiss: function () {
-              let body = {
-                paymentId: null,
-                orderId: data.id,
-                amount: course.price,
-                currency: "INR",
-                status: "Cancelled",
-                courseId: id,
-                courseName: course.title,
-              };
-              addPaymentDetails(body);
-            },
-          },
-          prefill: {
-            name: user.data.name,
-            email: user.data.email,
-          },
-        };
-
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error(error, {
-          position: "bottom-center",
-        });
-      });
-  };
-
   useEffect(() => {
     if (user) {
+      // Check if user is enrolled into the course
       axios
         .get(`${API_ENDPOINT}/api/checkenrollment/${id}`, {
           headers: {
@@ -156,6 +44,7 @@ const CourseDeatils = () => {
           },
         })
         .then((response) => {
+          // Fetched erolled data for user
           if (response.data.isEnrolled) {
             axios
               .get(`${API_ENDPOINT}/api/getenrolled/${id}`, {
@@ -192,6 +81,7 @@ const CourseDeatils = () => {
           console.error(error);
         });
     } else {
+      // Get course data for normal/not login user
       axios
         .get(`${API_ENDPOINT}/api/get/${id}`)
         .then((response) => {
@@ -206,25 +96,8 @@ const CourseDeatils = () => {
     }
   }, []);
 
-  const addPaymentDetails = (body) => {
-    axios
-      .post(`${API_ENDPOINT}/api/addpayment`, body, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.data.token}`,
-        },
-      })
-      .then(() => {
-        if (body.status == "Success") handleEnroll();
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message, {
-          position: "bottom-center",
-        });
-      });
-  };
-
   const handleEnroll = () => {
+    // Check if user is logged in
     if (!user) {
       toast.error("Sign in to enroll course", {
         position: "bottom-center",
@@ -301,7 +174,7 @@ const CourseDeatils = () => {
               <p className="course_enroll_price">Rs. {course.price}</p>
               <button
                 className="course_enroll_button"
-                onClick={makePayment}
+                onClick={() => makePayment(course, user, id, handleEnroll)}
                 disabled={isEnrolled}
               >
                 {isEnrolled ? "Already Enrolled" : "Enroll Now"}
@@ -311,7 +184,12 @@ const CourseDeatils = () => {
           <div className="course_content">
             <h3>Course content</h3>
             {lessons.map((lesson, index) => (
-              <LessonAccordian lesson={lesson} index={index} courseId={id} />
+              <LessonAccordian
+                key={index}
+                lesson={lesson}
+                index={index}
+                courseId={id}
+              />
             ))}
           </div>
         </div>

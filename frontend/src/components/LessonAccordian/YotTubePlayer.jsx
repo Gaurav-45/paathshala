@@ -2,12 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 
 const YotTubePlayer = ({ videoUrl, onVideoEnd }) => {
-  // const onVideoEnd = () => {
-  //   toast.success("Congratulations!!! You've completed the lesson", {
-  //     position: "bottom-center",
-  //   });
-  // };
-
   const playerRef = useRef(null);
 
   useEffect(() => {
