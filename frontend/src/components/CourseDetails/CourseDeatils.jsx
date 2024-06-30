@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./CourseDeatils.css";
-import Accordion from "@mui/material/Accordion";
-import AccordionActions from "@mui/material/AccordionActions";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
 import LessonAccordian from "../LessonAccordian/LessonAccordian";
-const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 import BorderLinearProgress from "./BorderLinearProgress";
 import { makePayment, addPaymentDetails } from "./PaymentHandler";
+const API_ENDPOINT = process.env.REACT_APP_BACKEND_URL;
 
 const CourseDeatils = () => {
   const [course, setCourse] = useState({});
