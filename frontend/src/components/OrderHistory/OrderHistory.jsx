@@ -38,14 +38,20 @@ const OrderHistory = () => {
       <div className="course_section_title">
         <h3>Order history</h3>
       </div>
-      {loader ? (
-        <img className="loading_container" src="/load.gif" alt="" />
+      {user ? (
+        <>
+          {loader ? (
+            <img className="loading_container" src="/load.gif" alt="" />
+          ) : (
+            <div className="order_history">
+              {orders.map((order, key) => {
+                return <OrderHistoryCard data={order} key={key} />;
+              })}
+            </div>
+          )}
+        </>
       ) : (
-        <div className="order_history">
-          {orders.map((order, key) => {
-            return <OrderHistoryCard data={order} key={key} />;
-          })}
-        </div>
+        <p className="sign_in_enroll">Please Signin to view enrolled courses</p>
       )}
     </div>
   );

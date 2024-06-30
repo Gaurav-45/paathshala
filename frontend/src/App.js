@@ -12,6 +12,7 @@ import MyCourse from "./components/MyCourse/MyCourse";
 import { ToastContainer } from "react-toastify";
 import OrderHistory from "./components/OrderHistory/OrderHistory";
 import "react-toastify/dist/ReactToastify.css";
+import UnderDevelopment from "./components/UnderDevelopment/UnderDevelopment";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -42,6 +43,11 @@ function App() {
             <Route path="/Register" element={<Register />} />
             <Route path="/mycourse" element={<MyCourse />} />
             <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/project" element={<UnderDevelopment />} />
+            <Route path="/career" element={<UnderDevelopment />} />
+            <Route path="/mentorship" element={<UnderDevelopment />} />
+            <Route path="/blogs" element={<UnderDevelopment />} />
+            <Route path="/community" element={<UnderDevelopment />} />
           </Routes>
         </div>
       </div>

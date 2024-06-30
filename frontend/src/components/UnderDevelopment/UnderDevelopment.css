@@ -1,0 +1,20 @@
+.under_dev_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+@media (max-width: 768px) {
+    .top_nav_container{
+      width: 98vw;
+    }
+    .under_dev_container{
+        width: 100%;
+    }
+
+    .under_dev_container img{
+        width: 100%;
+    }
+  }
