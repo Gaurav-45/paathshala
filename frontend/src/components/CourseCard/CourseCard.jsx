@@ -6,6 +6,7 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 
+// Component to display progress bar
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
   borderRadius: 5,
@@ -20,6 +21,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const CourseCard = ({ course, lesson = null, enrolledCourse = false }) => {
+  // Get percentage of complted course from lesson completed information
   const calculateCompletePercent = (lesson) => {
     let precent = 0;
     lesson.map((item, key) => {
