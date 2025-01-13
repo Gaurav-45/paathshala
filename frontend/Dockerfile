@@ -13,9 +13,6 @@ RUN git clone https://github.com/Gaurav-45/paathshala.git .
 # Navigate to the frontend folder
 WORKDIR /usr/src/app/frontend
 
-# Copy environment variables
-COPY .env .env
-
 # Install dependencies
 RUN npm install
 
@@ -31,6 +28,9 @@ WORKDIR /usr/share/nginx/html
 
 # Copy build artifacts from the build stage to the Nginx HTML folder
 COPY --from=build-stage /usr/src/app/frontend/build .
+
+# Copy custom nginx configuration to hanle react-routers
+COPY frontend/nginx.conf /etc/nginx/nginx.conf
 
 # Expose the default Nginx port
 EXPOSE 80
