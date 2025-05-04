@@ -49,7 +49,7 @@ export const makePayment = async (course, user, courseId, handleEnroll) => {
     .then((res) => {
       const data = res.data;
       var options = {
-        key: process.env.RAZORPAY_KEY,
+        key: process.env.REACT_APP_RAZORPAY_KEY,
         name: "Paathshala Pvt Ltd",
         currency: data.currency,
         amount: data.amount,
